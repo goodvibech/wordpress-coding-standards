@@ -1,0 +1,770 @@
+# Coding Guidelines & Standards
+
+## 📋 Table of Contents
+
+1. [CSS Guidelines](#css-guidelines)
+2. [General Coding Standards](#general-coding-standards)
+3. [Naming Conventions](#naming-conventions)
+4. [Code Quality & Best Practices](#code-quality--best-practices)
+5. [Security & Privacy](#security--privacy)
+6. [WordPress Specific Standards](#wordpress-specific-standards)
+
+---
+
+## 🎨 CSS Guidelines
+
+### Syntax and Formatting
+
+- **Indentation**: Use 2 spaces (no tabs)
+- **Line Width**: Limit lines to 80 characters where possible
+- **Multi-line CSS**: Always write CSS across multiple lines (except for single-declaration rulesets)
+- **Meaningful Whitespace**:
+  - 1 empty line between closely related rulesets
+  - 2 empty lines between loosely related rulesets
+  - 5 empty lines between entirely new sections
+
+### Anatomy of a Ruleset
+
+```css
+/* CORRECT */
+.foo,
+.foo--bar,
+.baz {
+  display: block;
+  background-color: green;
+  color: red;
+}
+
+/* INCORRECT - avoid */
+.foo, .foo--bar, .baz {
+    display:block;
+    background-color:green;
+    color:red }
+```
+
+**Rules**:
+- Related selectors on the same line; unrelated selectors on new lines
+- Space before opening brace `{`
+- Properties and values on the same line
+- Space after property–value delimiting colon `:`
+- Each declaration on its own new line
+- Opening brace `{` on same line as last selector
+- First declaration on new line after opening brace
+- Closing brace `}` on its own new line
+- Each declaration indented by 2 spaces
+- Trailing semi-colon `;` on last declaration
+
+### File Organization
+
+#### Section Titles
+
+```css
+/*------------------------------------*\
+  #SECTION-TITLE
+\*------------------------------------*/
+
+.selector { }
+```
+
+#### Table of Contents (in main stylesheet)
+
+```css
+/**
+ * CONTENTS
+ *
+ * SETTINGS
+ * Global...............Globally-available variables and config.
+ *
+ * TOOLS
+ * Mixins...............Useful mixins.
+ *
+ * GENERIC
+ * Normalize.css........A level playing field.
+ * Box-sizing...........Better default `box-sizing`.
+ *
+ * BASE
+ * Headings.............H1–H6 styles.
+ *
+ * OBJECTS
+ * Wrappers.............Wrapping and constraining elements.
+ *
+ * COMPONENTS
+ * Page-head............The main page header.
+ * Buttons..............Button elements.
+ *
+ * TRUMPS
+ * Text.................Text helpers.
+ */
+```
+
+### Naming Conventions
+
+#### BEM-like Naming
+
+- **Block**: `.person {}`
+- **Element**: `.person__head {}` (double underscore)
+- **Modifier**: `.person--tall {}` (double hyphen)
+
+```css
+/* GOOD - BEM structure */
+.profile { }
+.profile__image { }
+.profile__bio { }
+.profile--is-pro-user { }
+
+/* BAD - avoid deep nesting */
+.profile__image__border { }
+```
+
+#### Hyphen Delimited
+
+- Use hyphens to delimit multi-word class names
+- `camelCase` and `snake_case` are NOT used for regular classes
+
+```css
+/* CORRECT */
+.page-head { }
+.sub-content { }
+
+/* INCORRECT */
+.pageHead { }
+.sub_content { }
+```
+
+### Selector Guidelines
+
+#### Selector Intent
+
+- Select what you want explicitly
+- Avoid location-dependent selectors
+- Keep selectors as short as possible
+
+```css
+/* BAD - too specific, location dependent */
+header ul { }
+#content table { }
+
+/* GOOD - explicit, portable */
+.site-nav { }
+.data-table { }
+```
+
+#### Avoid Nesting
+
+```css
+/* BAD - nested, specific */
+.widget .widget__title {
+  color: red;
+}
+
+/* GOOD - flat, reusable */
+.widget__title {
+  color: red;
+}
+```
+
+#### Never Use IDs in CSS
+
+```css
+/* BAD - IDs have high specificity */
+#header { }
+
+/* GOOD - use classes */
+.header { }
+
+/* ACCEPTABLE - attribute selector if ID exists in HTML */
+[id="third-party-widget"] { }
+```
+
+### Specificity
+
+- Keep specificity as LOW as possible
+- Avoid `!important` (use only proactively for utility classes)
+- Don't nest selectors unnecessarily
+- Don't qualify selectors (e.g., avoid `ul.nav`)
+- Use classes over element selectors
+
+```css
+/* BAD - high specificity */
+body.home div.header ul li a { }
+
+/* GOOD - low specificity */
+.primary-nav__link { }
+```
+
+### Commenting
+
+#### High-level Comments
+
+```css
+/**
+ * The site's main page-head can have two different states:
+ *
+ * 1) Regular page-head with no backgrounds or extra treatments
+ * 2) A masthead with fluid-height and large background image
+ *
+ * The regular page-head is simple, but the masthead version has
+ * a slightly intermingled dependency with its wrapper.
+ */
+```
+
+#### Object–Extension Pointers
+
+```css
+/**
+ * Extend `.btn {}` in _components.buttons.scss.
+ */
+.btn { }
+```
+
+#### Low-level Comments
+
+```css
+/**
+ * Large site headers act more like mastheads.
+ *
+ * 1. Mastheads will typically have dark backgrounds.
+ * 2. We need to delegate layout to the wrapper element.
+ */
+.page-head--masthead {
+  background: url(/img/masthead.jpg) center center #2e2620;
+  color: $color-masthead; /* [1] */
+  
+  > .wrapper { /* [2] */
+    position: relative;
+  }
+}
+```
+
+### OOCSS Principles
+
+#### Separate Structure from Skin
+
+```css
+/* Structure (object) */
+.btn {
+  display: inline-block;
+  padding: 1em 2em;
+  vertical-align: middle;
+}
+
+/* Skin (modifier) */
+.btn--positive {
+  background-color: green;
+  color: white;
+}
+
+.btn--negative {
+  background-color: red;
+  color: white;
+}
+```
+
+#### Single Responsibility Principle
+
+```css
+/* BAD - multiple responsibilities */
+.error-message {
+  display: block;
+  padding: 10px;
+  border-top: 1px solid #f00;
+  border-bottom: 1px solid #f00;
+  background-color: #fee;
+  color: #f00;
+  font-weight: bold;
+}
+
+/* GOOD - separated responsibilities */
+.box {
+  display: block;
+  padding: 10px;
+}
+
+.message {
+  border-style: solid;
+  border-width: 1px 0;
+  font-weight: bold;
+}
+
+.message--error {
+  background-color: #fee;
+  color: #f00;
+}
+```
+
+---
+
+## 💻 General Coding Standards
+
+### Code Readability
+
+1. **Write as few lines as possible**
+2. **Use appropriate naming conventions**
+3. **Segment blocks of code into paragraphs**
+4. **Use indentation to mark control structures**
+5. **Keep functions short** (one function = one task)
+6. **Follow DRY principle** (Don't Repeat Yourself)
+7. **Avoid deep nesting** (max 3 levels)
+8. **Avoid long lines** (prefer horizontal short, vertical long blocks)
+
+### Meaningful Names
+
+#### Different Naming Conventions
+
+```javascript
+// Camel Case (JavaScript variables/functions)
+const userName = "Smith";
+function reverseName(name) { }
+
+// Snake Case (Python, databases)
+const user_name = "Smith";
+
+// Kebab Case (CSS, HTML attributes)
+const user-name = "Smith";
+
+// Pascal Case (Classes)
+class Person {
+  constructor(firstName, lastName) { }
+}
+```
+
+#### Naming Rules
+
+```javascript
+// BAD - abbreviated, unclear
+const cust = "John";
+const usr = "Alice";
+
+// GOOD - descriptive, clear
+const customerName = "John";
+const customerFullName = "Alice Johnson";
+```
+
+### Comments and Documentation
+
+**When to add comments**:
+- For intricate or non-obvious code
+- To explain business rules or domain logic
+- For edge cases or exceptional scenarios
+- To document workarounds
+- TODO markers for future improvements
+
+**When NOT to add comments**:
+- Redundant comments that repeat the code
+- For self-evident code
+- Temporary debugging comments (remove after)
+- Misleading or outdated comments
+
+```javascript
+// GOOD - explains non-obvious logic
+/**
+ * Calculate tax with special handling for international customers.
+ * Uses different rate based on customer location and product type.
+ */
+function calculateTax(amount, customer, product) {
+  // TODO: Refactor to use new tax service API
+  if (customer.isInternational) {
+    return amount * 0.15; // International flat rate
+  }
+  return amount * 0.2; // Domestic rate
+}
+
+// BAD - redundant comment
+// Set the user name to John
+const userName = "John";
+```
+
+### Exception Handling
+
+```javascript
+// Use try-catch for error-prone operations
+try {
+  const result = riskyOperation();
+  processResult(result);
+} catch (error) {
+  console.error("Operation failed:", error.message);
+  // Handle gracefully - don't let app crash
+  notifyUser("Something went wrong. Please try again.");
+} finally {
+  // Cleanup tasks that always run
+  closeConnection();
+}
+```
+
+### Avoid Single Identifier for Multiple Purposes
+
+```javascript
+// BAD - variable shadowing
+function outerFunction() {
+  let count = 10;
+  
+  function innerFunction() {
+    const count = 20; // Shadows outer count
+    console.log(count);
+  }
+  
+  innerFunction();
+  console.log(count); // Confusing!
+}
+
+// GOOD - unique names
+function outerFunction() {
+  let totalCount = 10;
+  
+  function innerFunction() {
+    const localCount = 20;
+    console.log(localCount);
+  }
+  
+  innerFunction();
+  console.log(totalCount);
+}
+```
+
+---
+
+## 🏷️ Naming Conventions
+
+### CSS/HTML Class Names
+
+- Use **lowercase** and **hyphens**
+- Be **descriptive** but **concise**
+- Use **BEM methodology** for components
+- Avoid presentational names (`.red-text` ❌ → `.error-message` ✅)
+
+### JavaScript
+
+- **Variables/Functions**: `camelCase`
+- **Classes**: `PascalCase`
+- **Constants**: `UPPER_SNAKE_CASE`
+- **Private properties**: `_prefixWithUnderscore`
+
+```javascript
+// Variables and functions
+const userName = "John";
+function calculateTotal() { }
+
+// Classes
+class ShoppingCart { }
+
+// Constants
+const MAX_RETRY_COUNT = 3;
+const API_BASE_URL = "https://api.example.com";
+
+// Private (convention)
+class User {
+  constructor() {
+    this._privateData = {};
+  }
+}
+```
+
+### JavaScript Hooks
+
+```html
+<!-- Separate styling classes from JS hooks -->
+<button class="btn btn--primary js-submit-form">Submit</button>
+```
+
+**Rules**:
+- Prefix JS hooks with `js-`
+- Never style `js-` classes
+- Never use `data-*` attributes for JS hooks (they're for data storage)
+
+---
+
+## ✅ Code Quality & Best Practices
+
+### 1. Follow Industry Standards
+
+- **Web**: Follow W3C standards, WCAG accessibility guidelines
+- **Automotive**: MISRA C/C++
+- **General**: IEEE, ISO standards where applicable
+
+### 2. Code Review Process
+
+- Review code before merging
+- Use pull requests
+- Check for:
+  - Logic errors
+  - Security vulnerabilities
+  - Performance issues
+  - Style guide violations
+  - Missing tests
+
+### 3. Version Control
+
+```bash
+# Use meaningful commit messages
+git commit -m "feat: add user authentication"
+git commit -m "fix: resolve navigation dropdown issue"
+git commit -m "refactor: optimize database queries"
+
+# Follow conventional commits format
+# type(scope): description
+# 
+# Types: feat, fix, docs, style, refactor, test, chore
+```
+
+### 4. Refactoring
+
+```javascript
+// BEFORE refactoring
+function calculateTotal(items) {
+  let total = 0;
+  for (const item of items) {
+    total += item.price;
+  }
+  return total;
+}
+
+// AFTER refactoring - more functional
+function calculateTotal(items) {
+  return items.reduce((acc, item) => acc + item.price, 0);
+}
+```
+
+### 5. Modularization
+
+```javascript
+// GOOD - modular, single responsibility
+// tax.js
+export function calculateTax(income) {
+  return income * 0.2;
+}
+
+// user.js
+export class User {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  greet() {
+    console.log(`Hello, ${this.name}!`);
+  }
+}
+```
+
+### 6. DRY Principle
+
+```javascript
+// BAD - repetition
+function processUserData(user) {
+  console.log(`Processing: ${user.name}`);
+  validateUser(user);
+  saveUser(user);
+}
+
+function processAdminData(admin) {
+  console.log(`Processing: ${admin.name}`);
+  validateUser(admin);
+  saveUser(admin);
+}
+
+// GOOD - abstracted
+function processEntity(entity, type) {
+  console.log(`Processing ${type}: ${entity.name}`);
+  validateUser(entity);
+  saveUser(entity);
+}
+```
+
+---
+
+## 🔒 Security & Privacy
+
+### 1. Input Validation
+
+```javascript
+// Always validate and sanitize user input
+function processUserInput(input) {
+  // Validate
+  if (!input || typeof input !== 'string') {
+    throw new Error('Invalid input');
+  }
+  
+  // Sanitize
+  const sanitized = input.trim().slice(0, 100);
+  
+  return sanitized;
+}
+```
+
+### 2. Sensitive Data
+
+```javascript
+// DON'T store sensitive data in plain text
+const user = {
+  username: "john",
+  password: "secret123" // ❌ NEVER DO THIS
+};
+
+// DO hash passwords and sensitive data
+const user = {
+  username: "john",
+  passwordHash: "$2b$10$..." // ✅ Hashed
+};
+```
+
+### 3. Data Privacy
+
+```javascript
+// Collect only necessary data
+const userData = {
+  userId: 123,
+  email: "user@example.com", // Only if needed
+  // ❌ Don't collect: SSN, credit cards, unnecessary personal data
+};
+```
+
+---
+
+## 🔷 WordPress Specific Standards
+
+### PHP Coding Standards
+
+```php
+// Yoda Conditions
+if ( true === $the_force ) {
+    // Do something
+}
+
+// Spacing
+$my_array = array( 1, 2, 3 );
+$my_value = ( $a + $b ) * $c;
+
+// Naming
+function my_plugin_function_name() { }
+class My_Plugin_Class_Name { }
+$my_variable_name = 'value';
+
+// Single quotes for strings (unless interpolation needed)
+$greeting = 'Hello';
+$message = "Hello, {$name}!";
+```
+
+### JavaScript (WordPress)
+
+```javascript
+// Use jQuery instead of $
+jQuery( document ).ready( function( $ ) {
+    // Now you can use $ safely
+    $( '.button' ).on( 'click', function() {
+        // Handle click
+    } );
+} );
+
+// Naming
+const myVariableName = 'value';
+function myFunctionName() { }
+```
+
+### CSS (WordPress)
+
+```css
+/* Prefix custom classes with theme/plugin name */
+.mytheme-header { }
+.myplugin-button { }
+
+/* Follow WordPress core CSS guidelines */
+.wp-block-button {
+    display: inline-block;
+}
+```
+
+### File Organization (WordPress)
+
+```
+/wp-content/themes/my-theme/
+├── style.css           # Main stylesheet (required)
+├── functions.php       # Theme functions
+├── index.php          # Main template
+├── header.php         # Header template
+├── footer.php         # Footer template
+├── /assets/
+│   ├── /css/
+│   ├── /js/
+│   └── /images/
+└── /inc/              # Additional includes
+```
+
+---
+
+## 📚 Additional Guidelines
+
+### Daily Backups
+- Commit code daily
+- Back up on version control after every modification
+- Use Git, SVN, or similar systems
+
+### Standardize Headers
+
+```javascript
+/**
+ * Module Name: User Authentication
+ * Author: Your Name
+ * Created: 2025-01-01
+ * Last Modified: 2025-01-15
+ * Description: Handles user login, logout, and session management
+ * Dependencies: bcrypt, jsonwebtoken
+ * Functions: login(), logout(), validateSession()
+ */
+```
+
+### Code Quality Tools
+
+Use tools like:
+- **ESLint** (JavaScript)
+- **Stylelint** (CSS)
+- **PHP_CodeSniffer** (PHP)
+- **Prettier** (Code formatting)
+- **BrowserStack Code Quality** (Testing)
+
+---
+
+## 🎯 Quick Reference Checklist
+
+### Before Committing Code
+
+- [ ] Code follows naming conventions
+- [ ] No unused variables or functions
+- [ ] Comments explain "why", not "what"
+- [ ] No console.log() or debug code
+- [ ] Proper error handling implemented
+- [ ] CSS selectors are low specificity
+- [ ] No IDs in CSS
+- [ ] BEM naming used for components
+- [ ] Code is DRY (not repetitive)
+- [ ] Indentation is consistent (2 spaces)
+- [ ] Line length < 80 characters where possible
+- [ ] All functions have single responsibility
+- [ ] Security vulnerabilities addressed
+- [ ] Version control commit message is clear
+
+---
+
+## 📖 Resources
+
+### CSS Guidelines
+- Harry Roberts CSS Guidelines: https://csswizardry.com/
+- BEM Methodology: http://getbem.com/
+- OOCSS: https://github.com/stubbornella/oocss/wiki
+
+### General Coding
+- Clean Code by Robert C. Martin
+- MDN Web Docs: https://developer.mozilla.org/
+- BrowserStack Best Practices: https://www.browserstack.com/guide/coding-standards-best-practices
+
+### WordPress
+- WordPress Coding Standards: https://developer.wordpress.org/coding-standards/
+- WordPress Codex: https://codex.wordpress.org/
+
+---
+
+**Version**: 1.0  
+**Last Updated**: January 2025  
+**Applies to**: CSS, JavaScript, PHP, HTML, WordPress Development
+
+---
+
+Remember: **Code is read more often than it is written. Write code for humans first, computers second.**
