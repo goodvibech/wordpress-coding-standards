@@ -1,421 +1,154 @@
-# WordPress Development Reference - Coding Standards and Guidelines
+# AI Coding Standards & Style Guides
 
-## Overview
+This repository contains a set of focused Markdown guidelines that standardise how code and documentation should be written – both by humans and by AI coding tools.
 
-This document provides comprehensive coding standards and best practices for WordPress and WooCommerce development, focusing on maintainable, scalable, and secure code implementation.
+The idea:  
+You feed these files into your AI environment (or reference them in prompts), and every generated file will follow the same standards for style, naming, documentation, and structure.
 
-## General Coding Standards
+---
 
-### Purpose and Benefits
+## Repository Contents
 
-Coding standards ensure consistency, readability, and collaboration across the development team, while reducing errors and improving code quality. Key benefits include:
+### Language-specific documentation standards
 
-- **Consistency**: Uniform codebase for easier reading and maintenance
-- **Error Prevention**: Early detection of common mistakes
-- **Scalability**: Code that can grow without becoming unmanageable
-- **Cross-Team Collaboration**: Shared standards facilitate teamwork
-- **Efficient Maintenance**: Simplified debugging and refactoring
+These files define **how to write comments / docblocks**, not the code style itself.
 
+- **`js-documentation-standards.md`**  
+  JSDoc-based documentation rules for JavaScript:
+  - What needs a docblock (functions, methods, classes, events, namespaces).
+  - Format of docblocks (summary line, `@param`, `@return`, `@since`, etc.).
+  - How to phrase summaries and descriptions.
+  - When and how to document deprecations.
 
-### Core Best Practices
+- **`php-documentation-standards.md`**  
+  PHPDoc rules for PHP:
+  - DocBlocks for functions, methods, classes, hooks, constants, and files.
+  - `@since`, `@deprecated`, `@see`, `@throws`, etc.
+  - How to document actions and filters.
+  - Structure of file headers and inline documentation.
 
-#### 1. Code Readability
+---
 
-- Write minimal lines of code
-- Use appropriate naming conventions (camelCase for JavaScript, snake_case for PHP)
-- Segment code into logical paragraphs
-- Use proper indentation (2 spaces)
-- Keep functions focused on single tasks
-- Apply DRY principle (Don't Repeat Yourself)
-- Avoid deep nesting
-- Keep lines under 80 characters when possible
+### Language-specific coding standards
 
+These files define **how the code itself should look and behave** (formatting, naming, conventions).
 
-#### 2. Naming Conventions
+- **`js-coding-standards.md`**  
+  JavaScript coding rules:
+  - Spacing, braces, semicolons, and line length.
+  - `const`/`let` usage, naming conventions, and strict equality (`===`/`!==`).
+  - Recommended type checks and array/object usage.
+  - Expectations around linting and library usage.
 
-- **camelCase**: JavaScript variables and functions (`userName`, `reverseName()`)
-- **PascalCase**: Class names (`Person`, `UserProfile`)
-- **kebab-case**: CSS classes (when needed, though BEM is preferred)
-- Use meaningful names that convey purpose
-- Avoid single identifiers for multiple purposes
+- **`php-coding-standards.md`**  
+  PHP coding rules:
+  - Full PHP tags, WordPress-style naming, and indentation.
+  - Control structure style (`if/elseif/else`), Yoda conditions, and arrays.
+  - Visibility on methods and properties.
+  - Safe patterns for error handling and database access.
 
+- **`html-coding-standards.md`**  
+  HTML rules:
+  - Valid, well-formed markup.
+  - Lowercase tags/attributes, quoted attribute values.
+  - Self-closing tags (`<br />`, `<img />`) and indentation.
+  - Basic accessibility expectations (alt attributes, headings, keyboard-friendly controls).
 
-#### 3. Documentation and Comments
+- **`css-coding-standards.md`**  
+  CSS rules (WordPress style):
+  - Selector and property formatting, indentation, and spacing.
+  - Semantic, hyphenated class names.
+  - Property ordering and media query structure.
+  - Comment styles and how to handle `!important` and magic values.
 
-- Comment non-obvious code segments
-- Explain business rules and domain-specific logic
-- Document edge cases and exceptional scenarios
-- Mark areas needing improvement with `TODO`
-- Avoid redundant comments that repeat obvious code
-- Use English for all code comments
+---
 
+### Higher-level architecture & patterns
 
-#### 4. Exception Handling
+These files complement the language-specific standards with **architectural and design guidance**.
 
-- Use try-catch blocks for error-prone code
-- Enable auto-recovery mechanisms
-- Implement real-time log analysis
-- Handle network/software slowness gracefully
+- **`css-guidelines-harry-roberts.md`**  
+  High-level CSS architecture guidelines (Harry Roberts style):
+  - BEM-like naming (`.block__element--modifier`).
+  - Shallow, reusable selectors and low specificity.
+  - Component / object thinking, DRY, and separation of concerns.
+  - How to structure large CSS codebases (sections, TOC, comments).
 
-```javascript
-try {
-    // Code that may throw exception
-    const result = numerator / denominator;
-} catch (error) {
-    console.error("Error:", error.message);
-} finally {
-    // Cleanup tasks
-}
-```
+- **`browserstack-coding-standards-best-practices.md`**  
+  Cross-language best practices:
+  - Why coding standards matter (readability, maintainability, scalability).
+  - Clean architecture, error handling, and security basics.
+  - Version control, code reviews, and CI integration.
+  - How to treat AI as a “junior dev” whose output must be reviewed.
 
+---
 
-#### 5. Security and Privacy
+### Markdown & documentation style
 
-- Extract insights without compromising privacy
-- Collect only necessary user data
-- Implement proper data validation
-- Follow security best practices
+- **`markdown-style-guide.md`**  
+  Markdown formatting rules:
+  - Heading levels (`#`–`######`) and structure.
+  - Lists, links, blockquotes, horizontal rules.
+  - Tables and fenced code blocks with language hints.
+  - How AI should structure documentation, READMEs, and specs.
 
+---
 
-#### 6. Version Control
+## How to Use These Files With AI Coding Tools
 
-- Make daily backups after every modification
-- Use consistent commit messages
-- Follow team branching strategies
-- Document modification history in module headers
+### 1. As a “system” or base prompt
 
+When configuring an AI coding assistant (e.g. in an editor plugin, CI helper, or custom tool):
 
-## CSS Guidelines
+- Load the relevant files as **base guidelines**:
+  - JS → `js-coding-standards.md` + `js-documentation-standards.md`
+  - PHP → `php-coding-standards.md` + `php-documentation-standards.md`
+  - Frontend → `html-coding-standards.md` + `css-coding-standards.md` + `css-guidelines-harry-roberts.md`
+  - Any docs/READMEs → `markdown-style-guide.md`
+- Include `browserstack-coding-standards-best-practices.md` as a general quality layer.
 
-### Syntax and Formatting
+Example meta-prompt for an AI tool:
 
-#### File Structure
+> “Follow the coding and documentation rules defined in the Markdown files in this repository (JS/PHP/HTML/CSS standards, CSS Guidelines, Markdown Style Guide). Any generated code must comply with these documents.”
 
-- Split CSS into multiple files by component/section
-- Include table of contents in main stylesheet
-- Use 80-character line width
-- Multi-line CSS (one declaration per line)
-- 2-space indentation
+### 2. As part of PR / code review workflow
 
+- Reference these documents in your **pull request template**:
+  - “Does this change comply with `js-coding-standards.md` and `js-documentation-standards.md`?”
+- Use them as checklists when reviewing AI-generated code:
+  - Naming, spacing, docblocks, and architecture can all be checked against these files.
 
-#### Section Organization
+### 3. As local developer reference
 
-```css
-/*------------------------------------*\
-  #SECTION-TITLE
-\*------------------------------------*/
+- Keep the files in a top-level `docs/` or `standards/` folder.
+- Link to them from your main project `README` or `CONTRIBUTING` guide.
+- Use them when onboarding new developers or configuring their editor settings and linters.
 
-.selector {
-    property: value;
-}
-```
+---
 
+## Priority & Conflicts
 
-#### Ruleset Anatomy
+If there’s ever a conflict between documents:
 
-```css
-.foo,
-.foo--bar,
-.baz {
-    display: block;
-    background-color: green;
-    color: red;
-}
-```
+1. **Project-specific rules first** (if you add additional rules on top).  
+2. **Language-specific coding standards**  
+   - e.g. `js-coding-standards.md`, `php-coding-standards.md`, `css-coding-standards.md`.  
+3. **Language-specific documentation standards**  
+   - e.g. `js-documentation-standards.md`, `php-documentation-standards.md`.  
+4. **Higher-level architecture & best practices**  
+   - `css-guidelines-harry-roberts.md`, `browserstack-coding-standards-best-practices.md`.  
+5. **Markdown style** for docs and READMEs.
 
+You can always extend these files with project-specific sections (e.g. “Project-specific exceptions” at the bottom of each file).
 
-#### Whitespace Usage
+---
 
-- 1 empty line between closely related rulesets
-- 2 empty lines between loosely related rulesets
-- 5 empty lines between new sections
+## Extending These Guidelines
 
+- Add new files for other languages or frameworks (e.g. `python-coding-standards.md`, `react-component-guidelines.md`).
+- Document any **exceptions** you intentionally allow (e.g. “no Yoda conditions in this project”).
+- Keep all changes in version control so both humans and AI tools evolve with the codebase.
 
-### BEM-like Naming Convention
+---
 
-#### Structure
-
-- **Block**: Root component (`.person`)
-- **Element**: Component part (`.person__head`)
-- **Modifier**: Variant or extension (`.person--tall`)
-
-
-#### Syntax Rules
-
-- Elements use double underscore: `__`
-- Modifiers use double hyphen: `--`
-- Hyphen-delimited strings for multi-word names
-
-
-#### Examples
-
-```css
-/* Block */
-.btn { }
-
-/* Element */
-.btn__icon { }
-
-/* Modifier */
-.btn--primary { }
-.btn--large { }
-
-/* Combined */
-.profile { }
-.profile__avatar { }
-.profile__bio { }
-.profile--featured { }
-```
-
-
-#### HTML Implementation
-
-```html
-<div class="[ box  box--highlight ]  [ profile  profile--featured ]">
-    <img class="profile__avatar" />
-    <p class="profile__bio">...</p>
-</div>
-```
-
-
-### CSS Selectors
-
-#### Selector Intent
-
-- Select elements for specific, well-reasoned purposes
-- Avoid overly greedy selectors
-- Use explicit, unambiguous selectors
-
-```css
-/* Bad - poor selector intent */
-header ul { }
-
-/* Good - explicit selector */
-.site-nav { }
-```
-
-
-#### Location Independence
-
-- Style based on what components are, not where they are
-- Avoid location-dependent selectors
-- Prefer reusable classes
-
-```css
-/* Bad - location dependent */
-.promo a { }
-
-/* Good - location independent */
-.btn { }
-```
-
-
-#### Specificity Management
-
-- Avoid IDs in CSS
-- Minimize nesting (especially in preprocessors)
-- Use `!important` sparingly and only when justified
-- Prefer multiple classes over qualified selectors
-
-```css
-/* Bad - qualified selector */
-input.btn { }
-
-/* Good - unqualified, reusable */
-.btn { }
-```
-
-
-### JavaScript Hooks
-
-- Never bind CSS and JavaScript to the same class
-- Use `js-` prefix for JavaScript-specific classes
-- Don't use `data-*` attributes as hooks (they're for storing data)
-
-```html
-<!-- Correct separation -->
-<input type="submit" class="btn  js-btn" value="Follow" />
-```
-
-
-### Commenting
-
-#### High-level Comments
-
-```css
-/**
- * The site's main page-head can have two different states:
- *
- * 1) Regular page-head with no backgrounds or extra treatments
- * 2) Masthead with fluid-height and large background image
- *
- * The regular page-head is simple, but the masthead version has
- * slightly intermingled dependency with its wrapper.
- */
-```
-
-
-#### Low-level Comments (Footnote style)
-
-```css
-.selector {
-    display: block; /* [^1] */
-    padding-top: 56.25%; /* [^2] */
-}
-
-/**
- * [^1] Ensures proper rendering context
- * [^2] Creates 16:9 aspect ratio using padding technique
- */
-```
-
-
-## Architectural Principles
-
-### Object-Oriented CSS (OOCSS)
-
-#### Separation of Structure and Skin
-
-```css
-/* Structure (object) */
-.btn {
-    display: inline-block;
-    padding: 1em 2em;
-    vertical-align: middle;
-}
-
-/* Skin (theme) */
-.btn--positive {
-    background-color: green;
-    color: white;
-}
-
-.btn--negative {
-    background-color: red;
-    color: white;
-}
-```
-
-
-### Single Responsibility Principle
-
-- Each class should have one clear purpose
-- Easier to maintain and understand
-- Promotes reusability
-
-
-### Open/Closed Principle
-
-- Open for extension, closed for modification
-- Extend via additional classes, not by editing originals
-- Use modifier classes to add variations
-
-
-### DRY (Don't Repeat Yourself)
-
-- Abstract meaningful repetition
-- Don't force abstractions for coincidental similarities
-- Use mixins for thematically grouped declarations
-
-
-### Composition Over Inheritance
-
-- Favor multiple classes over complex inheritance chains
-- Better paper trail in markup
-- Greater flexibility and composition
-
-
-## PHP Standards (PHP 8.3)
-
-### Core Requirements
-
-- Use PHP 8.3 features and syntax
-- Follow WordPress Coding Standards
-- Implement proper type declarations
-- Use modern PHP features (match expressions, constructor property promotion, etc.)
-
-
-### Security
-
-- Sanitize all input data
-- Escape all output
-- Use prepared statements for database queries
-- Validate user permissions
-- Implement nonces for form submissions
-
-
-## JavaScript Standards
-
-### Modern JavaScript (ES6+)
-
-- Use vanilla JavaScript only (no jQuery unless specifically approved)
-- Implement modern syntax (arrow functions, const/let, template literals)
-- Use async/await for asynchronous operations
-- Follow modular patterns
-
-
-### Code Organization
-
-- Keep functions small and focused
-- Use meaningful variable names
-- Comment complex logic
-- Implement error handling
-
-
-## WordPress/WooCommerce Specific
-
-### Performance Optimization
-
-- Minimize database queries
-- Use transients for caching
-- Optimize asset loading
-- Implement lazy loading where appropriate
-
-
-### Code Reviews and Refactoring
-
-- Engage QA during refactoring
-- Isolate debugging from refactoring
-- Document all changes
-- Test thoroughly before deployment
-
-
-### Module Headers
-
-Each module should include:
-
-- Module name
-- Date of creation
-- Creator name
-- Modification history
-- Summary of functionality
-- Functions list
-- Variables accessed
-
-
-## Tools and Workflow
-
-### Code Quality Management
-
-- Use linting tools
-- Implement automated testing
-- Regular code reviews
-- Continuous integration
-
-
-### Best Practices Summary
-
-1. **Consistency**: Maintain uniform coding style
-2. **Documentation**: Comment thoroughly and meaningfully
-3. **Modularity**: Break code into reusable components
-4. **Performance**: Optimize for speed and efficiency
-5. **Security**: Always validate, sanitize, and escape
-6. **Maintainability**: Write code others can understand
-7. **Testing**: Test all functionality before deployment
-8. **Version Control**: Commit regularly with clear messages
-
-***
-
-*This reference document combines coding standards from BrowserStack best practices and CSS Guidelines by Harry Roberts, adapted for WordPress/WooCommerce development with PHP 8.3 and modern JavaScript practices.*
-[^2]: CSS-Guidelines-2.2.5-High-level-advice-and-guidelines-for-writing-sane-manageable-scalable-CSS.pdf
-
+By keeping these standards in plain Markdown and in the repo, you can use the same source of truth for humans, linters, and AI coding tools.
