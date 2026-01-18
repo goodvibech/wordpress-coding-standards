@@ -1,154 +1,52 @@
-# AI Coding Standards & Style Guides
+# Agents WordPress
 
-This repository contains a set of focused Markdown guidelines that standardise how code and documentation should be written – both by humans and by AI coding tools.
+Coding and documentation standards for WordPress development, packaged as [Agent Skills](https://agentskills.io).
 
-The idea:  
-You feed these files into your AI environment (or reference them in prompts), and every generated file will follow the same standards for style, naming, documentation, and structure.
+**Author:** Dax Castellon — daxcastellon@pm.me
 
----
+## What's Here
 
-## Repository Contents
+This repository contains AI-facing coding standards adapted from WordPress and related guides, structured as Agent Skills:
 
-### Language-specific documentation standards
+- **[AGENTS.md](AGENTS.md)**: Main entry point with links to all available skills
+- **skills/**: Directory containing all skill folders, following the Agent Skills specification
+  - `css-coding-standards/` - CSS formatting, naming, and architecture guidelines
+  - `html-coding-standards/` - HTML structure, accessibility, and semantic markup
+  - `javascript-coding-standards/` - JavaScript style, documentation, and best practices
+  - `php-documentation-standards/` - PHPDoc standards and inline commenting
+  - `markdown-style-guide/` - Markdown formatting and structure conventions
+- **archive/**: Original source standards used to derive the skills
 
-These files define **how to write comments / docblocks**, not the code style itself.
+## How to Use
 
-- **`js-documentation-standards.md`**  
-  JSDoc-based documentation rules for JavaScript:
-  - What needs a docblock (functions, methods, classes, events, namespaces).
-  - Format of docblocks (summary line, `@param`, `@return`, `@since`, etc.).
-  - How to phrase summaries and descriptions.
-  - When and how to document deprecations.
+### For AI Agents
 
-- **`php-documentation-standards.md`**  
-  PHPDoc rules for PHP:
-  - DocBlocks for functions, methods, classes, hooks, constants, and files.
-  - `@since`, `@deprecated`, `@see`, `@throws`, etc.
-  - How to document actions and filters.
-  - Structure of file headers and inline documentation.
+Agents can discover and use these skills automatically. Each skill folder contains a `SKILL.md` file with:
+- YAML frontmatter describing the skill's purpose
+- Comprehensive guidelines for the specific language
+- Examples and best practices
 
----
+### For Developers
 
-### Language-specific coding standards
+1. Start with [AGENTS.md](AGENTS.md) to see all available skills
+2. Navigate to the specific skill folder for detailed guidelines
+3. Follow the standards when writing code or documentation
+4. Ensure consistency with project linters and formatters
 
-These files define **how the code itself should look and behave** (formatting, naming, conventions).
+### For Projects
 
-- **`js-coding-standards.md`**  
-  JavaScript coding rules:
-  - Spacing, braces, semicolons, and line length.
-  - `const`/`let` usage, naming conventions, and strict equality (`===`/`!==`).
-  - Recommended type checks and array/object usage.
-  - Expectations around linting and library usage.
+- Reference these skills in your project documentation
+- Customize or extend skills for project-specific needs
+- Keep skills updated as standards evolve
 
-- **`php-coding-standards.md`**  
-  PHP coding rules:
-  - Full PHP tags, WordPress-style naming, and indentation.
-  - Control structure style (`if/elseif/else`), Yoda conditions, and arrays.
-  - Visibility on methods and properties.
-  - Safe patterns for error handling and database access.
+## About Agent Skills
 
-- **`html-coding-standards.md`**  
-  HTML rules:
-  - Valid, well-formed markup.
-  - Lowercase tags/attributes, quoted attribute values.
-  - Self-closing tags (`<br />`, `<img />`) and indentation.
-  - Basic accessibility expectations (alt attributes, headings, keyboard-friendly controls).
+[Agent Skills](https://agentskills.io) are a simple, open format for giving agents new capabilities and expertise. Skills are folders of instructions, scripts, and resources that agents can discover and use to perform better at specific tasks.
 
-- **`css-coding-standards.md`**  
-  CSS rules (WordPress style):
-  - Selector and property formatting, indentation, and spacing.
-  - Semantic, hyphenated class names.
-  - Property ordering and media query structure.
-  - Comment styles and how to handle `!important` and magic values.
+**Key features**:
+- Write once, use everywhere
+- Standardized format for agent discovery
+- Interoperable across different agent platforms
+- Open specification maintained by Anthropic
 
----
-
-### Higher-level architecture & patterns
-
-These files complement the language-specific standards with **architectural and design guidance**.
-
-- **`css-guidelines-harry-roberts.md`**  
-  High-level CSS architecture guidelines (Harry Roberts style):
-  - BEM-like naming (`.block__element--modifier`).
-  - Shallow, reusable selectors and low specificity.
-  - Component / object thinking, DRY, and separation of concerns.
-  - How to structure large CSS codebases (sections, TOC, comments).
-
-- **`browserstack-coding-standards-best-practices.md`**  
-  Cross-language best practices:
-  - Why coding standards matter (readability, maintainability, scalability).
-  - Clean architecture, error handling, and security basics.
-  - Version control, code reviews, and CI integration.
-  - How to treat AI as a “junior dev” whose output must be reviewed.
-
----
-
-### Markdown & documentation style
-
-- **`markdown-style-guide.md`**  
-  Markdown formatting rules:
-  - Heading levels (`#`–`######`) and structure.
-  - Lists, links, blockquotes, horizontal rules.
-  - Tables and fenced code blocks with language hints.
-  - How AI should structure documentation, READMEs, and specs.
-
----
-
-## How to Use These Files With AI Coding Tools
-
-### 1. As a “system” or base prompt
-
-When configuring an AI coding assistant (e.g. in an editor plugin, CI helper, or custom tool):
-
-- Load the relevant files as **base guidelines**:
-  - JS → `js-coding-standards.md` + `js-documentation-standards.md`
-  - PHP → `php-coding-standards.md` + `php-documentation-standards.md`
-  - Frontend → `html-coding-standards.md` + `css-coding-standards.md` + `css-guidelines-harry-roberts.md`
-  - Any docs/READMEs → `markdown-style-guide.md`
-- Include `browserstack-coding-standards-best-practices.md` as a general quality layer.
-
-Example meta-prompt for an AI tool:
-
-> “Follow the coding and documentation rules defined in the Markdown files in this repository (JS/PHP/HTML/CSS standards, CSS Guidelines, Markdown Style Guide). Any generated code must comply with these documents.”
-
-### 2. As part of PR / code review workflow
-
-- Reference these documents in your **pull request template**:
-  - “Does this change comply with `js-coding-standards.md` and `js-documentation-standards.md`?”
-- Use them as checklists when reviewing AI-generated code:
-  - Naming, spacing, docblocks, and architecture can all be checked against these files.
-
-### 3. As local developer reference
-
-- Keep the files in a top-level `docs/` or `standards/` folder.
-- Link to them from your main project `README` or `CONTRIBUTING` guide.
-- Use them when onboarding new developers or configuring their editor settings and linters.
-
----
-
-## Priority & Conflicts
-
-If there’s ever a conflict between documents:
-
-1. **Project-specific rules first** (if you add additional rules on top).  
-2. **Language-specific coding standards**  
-   - e.g. `js-coding-standards.md`, `php-coding-standards.md`, `css-coding-standards.md`.  
-3. **Language-specific documentation standards**  
-   - e.g. `js-documentation-standards.md`, `php-documentation-standards.md`.  
-4. **Higher-level architecture & best practices**  
-   - `css-guidelines-harry-roberts.md`, `browserstack-coding-standards-best-practices.md`.  
-5. **Markdown style** for docs and READMEs.
-
-You can always extend these files with project-specific sections (e.g. “Project-specific exceptions” at the bottom of each file).
-
----
-
-## Extending These Guidelines
-
-- Add new files for other languages or frameworks (e.g. `python-coding-standards.md`, `react-component-guidelines.md`).
-- Document any **exceptions** you intentionally allow (e.g. “no Yoda conditions in this project”).
-- Keep all changes in version control so both humans and AI tools evolve with the codebase.
-
----
-
-By keeping these standards in plain Markdown and in the repo, you can use the same source of truth for humans, linters, and AI coding tools.
+Learn more at [agentskills.io](https://agentskills.io) or view the [specification](https://agentskills.io/specification).
