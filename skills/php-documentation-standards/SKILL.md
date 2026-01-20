@@ -26,7 +26,7 @@ Use PHPDoc comments for:
   - Incorrect: "Retrieve the user's email address."
   - Incorrect: "This function retrieves the user's email address."
 - **No HTML/Markdown in summaries**: Keep summaries as plain text
-- **Long descriptions**: Optional; may use Markdown and examples for complex behavior
+- **Long descriptions**: Optional; may use Markdown and examples for complex behavior; describe what and when, rarely why
 - **Be concise**: Focus on what the code does and why it matters
 
 ## Placement & Formatting
@@ -34,7 +34,8 @@ Use PHPDoc comments for:
 - **Direct placement**: Place DocBlocks directly above the element they document
 - **No code between**: Don't put code between the DocBlock and the element
 - **Line wrapping**: Wrap lines at approximately 80 characters
-- **Consistent spacing**: Use consistent spacing between tags
+- **Consistent spacing**: Use consistent spacing between tags and align tag columns for readability
+- **Spaces, not tabs**: Use spaces inside DocBlocks, not tabs
 
 ## Baseline Structure
 
@@ -156,6 +157,7 @@ $display_name = apply_filters( 'user_display_name', $display_name, $user_id );
 - **Multi-line**: Use `/* ... */` (single asterisk) for longer inline notes
 - **Proximity**: Keep comments close to the relevant code
 - **Purpose**: Explain why, not what (the code shows what)
+- **DocBlock syntax**: Do not use DocBlock (`/** ... */`) style for inline comments
 
 **Example**:
 ```php
@@ -200,6 +202,30 @@ class User_Auth {
     private $user_id;
 }
 ```
+
+## Lists, Examples, and Formatting
+
+- **Lists**: Use `-` for unordered and `1.` for ordered lists with blank lines before and after
+- **Code examples**: Indent every example line by 4 spaces
+- **Line length**: Prefer 80 characters; 100–120 acceptable with indentation
+- **Links**: Use `@link URL` when referencing external resources
+
+## Element-Specific Guidance
+
+- **Functions and methods**: Summary (max two lines), optional description, then tags (e.g., `@since`, `@param`, `@return`, `@global`, `@see`, `@link`)
+- **Array parameters (`$args`)**: Document each key with `@type type $key Description.` and mark the main array as optional when appropriate
+- **Deprecated functions**: Use `@deprecated x.x.x Use new_function_name()` and add `@see` for the replacement
+- **Classes**: Include summary, description, and `@since`; add `@see` for parent classes if relevant
+- **Properties and constants**: Use `@var type $property Description.`; class constants include summary and `@since` with optional `@var`
+- **Requires/Includes**: Place a short DocBlock immediately before the statement
+- **Hooks**: Document immediately before `do_action()` or `apply_filters()`
+- **File headers**: Recommended for all files; summary without a period, description with a period, common tags include `@link`, `@package`, `@subpackage`, `@since`
+
+## Tag Policies
+
+- **Packages**: For third-party plugins/themes do not use `@package WordPress`; use the plugin or theme name instead
+- **Authors**: Avoid `@author` except when required by bundled third-party code
+- **Licenses**: Only include `@license` or `@copyright` for bundled third-party libraries
 
 ## AI Requirements
 

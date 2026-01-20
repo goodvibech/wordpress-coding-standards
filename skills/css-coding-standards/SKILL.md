@@ -27,6 +27,8 @@ Guidelines distilled from WordPress CSS coding standards and Harry Roberts CSS g
 - **Avoid over-qualification**: Don't unnecessarily qualify selectors (e.g., use `.nav` instead of `ul.nav`)
 - **Avoid deep nesting**: Keep descendant chains short and selectors reusable
 - **Specificity**: Keep selector specificity as low as possible
+- **Selector length**: Keep selectors short and readable; prefer class selectors over deeply nested or fragile selectors
+- **Avoid !important**: Only use `!important` in rare, well-justified cases and document why
 
 ## Properties & Order
 
@@ -39,6 +41,8 @@ Guidelines distilled from WordPress CSS coding standards and Harry Roberts CSS g
   4. Other properties (`transition`, `animation`, `transform`)
 - **Shorthand properties**: Favor shorthand properties when appropriate
 - **TRBL ordering**: Use Top-Right-Bottom-Left order for directional properties
+- **Consistent values**: Use consistent casing and value patterns across the stylesheet
+- **Ordering consistency**: Keep property ordering consistent within a project to aid readability and clean diffs
 
 ## Comments
 
@@ -47,6 +51,7 @@ Guidelines distilled from WordPress CSS coding standards and Harry Roberts CSS g
 - **Intent documentation**: Comment the intent and reasoning, not just what the code does
 - **Explain hacks**: Document any CSS hacks or workarounds
 - **!important usage**: Always explain why `!important` is necessary
+- **Accuracy**: Keep comments up to date and remove misleading or obsolete notes
 
 ## Architecture
 
@@ -60,6 +65,7 @@ Guidelines distilled from WordPress CSS coding standards and Harry Roberts CSS g
 
 - **Placement**: Group media queries near the end of the file or within their relevant sections
 - **Indentation**: Indent nested rules one level inside media queries
+- **Organization**: Organize media queries consistently by component or logical block to keep related rules together
 
 ## AI Requirements
 

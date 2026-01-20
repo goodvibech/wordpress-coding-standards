@@ -7,6 +7,10 @@ description: Guidelines for writing clean, maintainable JavaScript code followin
 
 Guidelines distilled from WordPress JavaScript coding standards and documentation standards.
 
+## General
+
+- **Consistency first**: Apply these standards to all new and updated code to keep style interoperable
+
 ## Style & Formatting
 
 - **Spacing**: Include spaces after keywords and around operators
@@ -36,6 +40,7 @@ Guidelines distilled from WordPress JavaScript coding standards and documentatio
   - `UPPER_SNAKE_CASE` for constants
 - **Scope**: Declare variables at the top of their scope
 - **Descriptive names**: Use clear, descriptive variable and function names
+- **Limit globals**: Minimize global variables; encapsulate logic with modules, closures, or namespaces
 
 ## Equality & Type Checking
 
@@ -49,12 +54,14 @@ Guidelines distilled from WordPress JavaScript coding standards and documentatio
   - Null: `value === null`
   - Null or undefined: `value == null`
   - Undefined: `typeof value === 'undefined'`
+- **Predictable checks**: Use explicit, predictable checks, especially when handling external data
 
 ## Strings & Data Structures
 
 - **String quotes**: Default to single quotes for strings
   - Correct: `const message = 'Hello world';`
   - Escape internal quotes: `const quote = 'He said, \'Hello\'';`
+- **Template literals**: Use template literals only when they improve clarity
 - **Array literals**: Use `[]` instead of `new Array()`
 - **Object literals**: Use `{}` instead of `new Object()`
 - **Property access**: Prefer dot notation when possible
@@ -62,6 +69,13 @@ Guidelines distilled from WordPress JavaScript coding standards and documentatio
   - Use bracket notation for dynamic keys: `object[key]`
 - **Array methods**: Use higher-order functions appropriately
   - `map()`, `filter()`, `reduce()`, `forEach()`, etc.
+- **Multi-line structures**: Format multi-line objects and arrays for readability
+- **Mutation**: Avoid unnecessary mutation; favor clear, maintainable patterns
+
+## Functions
+
+- **Naming**: Use descriptive, consistent function names
+- **Size**: Keep functions small and avoid excessive nesting
 
 ## Control Flow
 
@@ -94,6 +108,8 @@ Guidelines distilled from WordPress JavaScript coding standards and documentatio
 - Use `//` for single-line comments
 - Use `/* ... */` for multi-line comments
 - Keep comments close to relevant code
+- Explain intent and decisions rather than restating the code
+- Keep comments current and remove misleading notes
 
 ### JSDoc Comments
 
@@ -101,16 +117,19 @@ Use JSDoc (`/** ... */`) for:
 - Public APIs
 - Classes and constructors
 - Methods and functions
-- Events
 - Namespaces
-- Important objects
-- File headers (when relevant)
+- Important objects and properties
+- Closures
+- File headers
+- Events
+- Dependencies (`@requires`)
 
 **JSDoc formatting**:
-- Summaries are one sentence, third-person singular
-- Align tags vertically
-- Wrap lines at approximately 80 characters
-- Include `@param`, `@return`, `@since` as needed
+- Summaries are single-sentence, third-person singular and avoid HTML/Markdown
+- Short descriptions do not use HTML; long descriptions may use Markdown when useful
+- Align tags vertically and wrap lines at approximately 80 characters (100–120 acceptable with indentation)
+- Include `@since` (use `@since Unknown` if needed), `@param`, `@return` as appropriate
+- Use WordPress-supported tags: prefer `@augments` (not `@extends`), `@class`, `@return`; avoid `@summary`
 
 **Example**:
 ```javascript

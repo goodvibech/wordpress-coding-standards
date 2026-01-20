@@ -45,6 +45,7 @@ Guidelines distilled from WordPress HTML coding standards.
 ## Indentation & Readability
 
 - **Consistent indentation**: Indent nested content consistently (tabs or spaces per project)
+- **Reflect structure**: Indent HTML to mirror logical structure and improve readability
 - **Avoid unnecessary nesting**: Don't nest elements unnecessarily
 - **No table layouts**: Avoid using tables for layout purposes
 - **Break lines**: Break lines to keep structure scannable and readable

@@ -15,6 +15,7 @@ Guidelines for writing clean, consistent Markdown documents.
   - Correct: `#` → `##` → `###`
   - Incorrect: `#` → `###` (skipped `##`)
 - **Spacing**: Add a blank line before and after headings
+- **Table of contents**: Headings `#` through `####` are typically added to the TOC automatically
 
 **Example**:
 ```markdown
@@ -124,7 +125,7 @@ Use the `console.log()` function to debug.
 
 - **Format**: Use triple backticks with language identifier
 - **Language tags**: Specify language for syntax highlighting
-- **Common languages**: `javascript`, `python`, `php`, `css`, `html`, `bash`, `json`
+- **Common languages**: `javascript`, `json`, `css`, `scss`, `html`, `php`, `md`, `bash`, `python`
 
 **Example**:
 ````markdown

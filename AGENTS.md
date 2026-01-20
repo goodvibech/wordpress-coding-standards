@@ -9,7 +9,8 @@ Each skill provides comprehensive guidelines for writing clean, maintainable cod
 - **CSS**: [skills/css-coding-standards/SKILL.md](skills/css-coding-standards/SKILL.md)
 - **HTML**: [skills/html-coding-standards/SKILL.md](skills/html-coding-standards/SKILL.md)
 - **JavaScript**: [skills/javascript-coding-standards/SKILL.md](skills/javascript-coding-standards/SKILL.md)
-- **PHP**: [skills/php-documentation-standards/SKILL.md](skills/php-documentation-standards/SKILL.md)
+- **PHP (coding)**: [skills/php-coding-standards/SKILL.md](skills/php-coding-standards/SKILL.md)
+- **PHP (documentation)**: [skills/php-documentation-standards/SKILL.md](skills/php-documentation-standards/SKILL.md)
 - **Markdown**: [skills/markdown-style-guide/SKILL.md](skills/markdown-style-guide/SKILL.md)
 
 ## How to Use
