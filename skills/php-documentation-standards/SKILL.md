@@ -1,53 +1,31 @@
 ---
 name: php-documentation-standards
-description: Guidelines for writing PHPDoc documentation following WordPress standards. Use when documenting PHP code, including functions, classes, methods, properties, hooks, and inline comments with proper formatting and tag usage.
+description: WordPress PHPDoc standards for functions, classes, hooks, inline comments.
 ---
 
 # PHP Documentation Standards
 
-Guidelines distilled from WordPress PHP documentation standards.
-
 ## DocBlock Scope
-
-Use PHPDoc comments for:
-
-- **Functions and methods**: All public functions and methods
-- **Classes, interfaces, and traits**: Class definitions
-- **Properties and constants**: Class properties and constants
-- **Hooks**: WordPress actions and filters (`do_action`, `apply_filters`)
-- **Global variables**: Notable global variables
-- **File includes**: `include`, `require` statements when relevant
-- **File headers**: Non-trivial file headers with purpose and context
+Use PHPDoc for: functions/methods, classes/interfaces/traits, properties/constants, hooks, notable globals, file includes/headers.
 
 ## Voice & Content
-
-- **Summary**: Write as single-sentence, third-person singular statements
-  - Correct: "Retrieves the user's email address."
-  - Incorrect: "Retrieve the user's email address."
-  - Incorrect: "This function retrieves the user's email address."
-- **No HTML/Markdown in summaries**: Keep summaries as plain text
-- **Long descriptions**: Optional; may use Markdown and examples for complex behavior; describe what and when, rarely why
-- **Be concise**: Focus on what the code does and why it matters
+- Summary: single-sentence, third-person singular (e.g., "Retrieves the user's email address.")
+- No HTML/Markdown in summaries
+- Optional long description with Markdown/examples for complex behavior
 
 ## Placement & Formatting
-
-- **Direct placement**: Place DocBlocks directly above the element they document
-- **No code between**: Don't put code between the DocBlock and the element
-- **Line wrapping**: Wrap lines at approximately 80 characters
-- **Consistent spacing**: Use consistent spacing between tags and align tag columns for readability
-- **Spaces, not tabs**: Use spaces inside DocBlocks, not tabs
+- Directly above element; no code between
+- Wrap at ~80 chars; consistent spacing; use spaces inside DocBlocks
 
 ## Baseline Structure
-
 ```php
 /**
  * Summary sentence.
  *
- * Optional longer description with more details.
+ * Optional longer description.
  *
  * @since x.x.x
  *
- * @param type $var Description.
  * @param type $var Description.
  * @return type Description.
  */
@@ -56,78 +34,25 @@ Use PHPDoc comments for:
 ## Common Tags
 
 ### @since
-
-- **Required**: Include `@since x.x.x` for all documented elements
-- **Version format**: Use semantic versioning (e.g., `1.0.0`, `2.1.3`)
-- **Unknown version**: Use `@since Unknown` if version is not known
-- **Changelog**: Add new `@since` lines for behavioral changes
-  ```php
-  /**
-   * Retrieves user data.
-   *
-   * @since 1.0.0
-   * @since 2.0.0 Added $include_meta parameter.
-   *
-   * @param int  $user_id      User ID.
-   * @param bool $include_meta Whether to include metadata.
-   * @return array User data.
-   */
-  ```
+- Required: `@since x.x.x` (use `@since Unknown` if unknown)
+- Add new `@since` for behavioral changes
 
 ### @param
-
-- **Format**: `@param type $variable Description.`
-- **Type**: Specify the parameter type (string, int, bool, array, object, mixed, etc.)
-- **Variable name**: Include the `$` prefix
-- **Description**: Brief description ending with a period
-- **Multiple types**: Use pipe separator: `string|int`
-- **Arrays**: Be specific when possible: `array`, `int[]`, `string[]`
-
-**Example**:
-```php
-/**
- * Updates user profile.
- *
- * @since 1.0.0
- *
- * @param int    $user_id User ID.
- * @param array  $data    User data to update.
- * @param bool   $notify  Whether to send notification. Default false.
- * @return bool True on success, false on failure.
- */
-```
+- Format: `@param type $variable Description.`
+- Include `$` prefix; end with period
+- Multiple types: `string|int`
 
 ### @return
-
-- **Format**: `@return type Description.`
-- **Omit if void**: Don't include `@return` for functions that don't return a value
-- **Be specific**: Describe what is returned, not just the type
-- **Multiple types**: Use pipe separator for multiple possible return types
+- Format: `@return type Description.`
+- Omit for void functions
+- Be specific about what's returned
 
 ### @deprecated
+- Format: `@deprecated version Use alternative().`
+- Keep `@param`/`@return` tags
 
-- **Format**: `@deprecated version Use alternative().`
-- **Include replacement**: Always suggest the replacement function/method
-- **Keep other tags**: Maintain `@param` and `@return` tags for deprecated items
-- **Optional @see**: Add `@see` tag to reference the replacement
-
-**Example**:
-```php
-/**
- * Retrieves user email.
- *
- * @since 1.0.0
- * @deprecated 2.0.0 Use get_user_email() instead.
- *
- * @param int $user_id User ID.
- * @return string User email address.
- */
-```
-
-## Documenting Hooks
-
-WordPress actions and filters should be documented:
-
+## Hooks
+Document immediately before `do_action()` or `apply_filters()`:
 ```php
 /**
  * Fires after user login.
@@ -138,53 +63,21 @@ WordPress actions and filters should be documented:
  * @param object $user    User object.
  */
 do_action( 'after_user_login', $user_id, $user );
-
-/**
- * Filters the user display name.
- *
- * @since 1.0.0
- *
- * @param string $display_name User display name.
- * @param int    $user_id      User ID.
- * @return string Filtered display name.
- */
-$display_name = apply_filters( 'user_display_name', $display_name, $user_id );
 ```
 
 ## Inline Comments
-
-- **Single-line**: Use `//` for brief inline comments
-- **Multi-line**: Use `/* ... */` (single asterisk) for longer inline notes
-- **Proximity**: Keep comments close to the relevant code
-- **Purpose**: Explain why, not what (the code shows what)
-- **DocBlock syntax**: Do not use DocBlock (`/** ... */`) style for inline comments
-
-**Example**:
-```php
-// Prevent duplicate submissions
-if ( isset( $submitted_ids[ $id ] ) ) {
-    continue;
-}
-
-/* 
- * We need to flush the cache here because the data
- * may have been modified by an external process.
- */
-wp_cache_flush();
-```
+- `//` for brief; `/* */` for longer
+- Explain why, not what
+- Close to relevant code
 
 ## Class Documentation
-
 ```php
 /**
  * User authentication handler.
  *
- * Manages user login, logout, and session validation.
- *
  * @since 1.0.0
  */
 class User_Auth {
-    
     /**
      * Maximum login attempts.
      *
@@ -192,53 +85,12 @@ class User_Auth {
      * @var int
      */
     const MAX_ATTEMPTS = 5;
-    
-    /**
-     * Current user ID.
-     *
-     * @since 1.0.0
-     * @var int
-     */
-    private $user_id;
 }
 ```
 
-## Lists, Examples, and Formatting
-
-- **Lists**: Use `-` for unordered and `1.` for ordered lists with blank lines before and after
-- **Code examples**: Indent every example line by 4 spaces
-- **Line length**: Prefer 80 characters; 100–120 acceptable with indentation
-- **Links**: Use `@link URL` when referencing external resources
-
-## Element-Specific Guidance
-
-- **Functions and methods**: Summary (max two lines), optional description, then tags (e.g., `@since`, `@param`, `@return`, `@global`, `@see`, `@link`)
-- **Array parameters (`$args`)**: Document each key with `@type type $key Description.` and mark the main array as optional when appropriate
-- **Deprecated functions**: Use `@deprecated x.x.x Use new_function_name()` and add `@see` for the replacement
-- **Classes**: Include summary, description, and `@since`; add `@see` for parent classes if relevant
-- **Properties and constants**: Use `@var type $property Description.`; class constants include summary and `@since` with optional `@var`
-- **Requires/Includes**: Place a short DocBlock immediately before the statement
-- **Hooks**: Document immediately before `do_action()` or `apply_filters()`
-- **File headers**: Recommended for all files; summary without a period, description with a period, common tags include `@link`, `@package`, `@subpackage`, `@since`
-
-## Tag Policies
-
-- **Packages**: For third-party plugins/themes do not use `@package WordPress`; use the plugin or theme name instead
-- **Authors**: Avoid `@author` except when required by bundled third-party code
-- **Licenses**: Only include `@license` or `@copyright` for bundled third-party libraries
-
-## AI Requirements
-
-When documenting PHP code, you must:
-
-- Add consistent PHPDoc to all public APIs and hooks
-- Use clean tag order: summary, description, `@since`, `@param`, `@return`
-- Write summaries in third-person singular
-- Avoid HTML in summaries, `@param`, and `@return` text
-- Use long descriptions for complex behavior or examples
-- Include `@since` tag for all documented elements
-- Properly format `@param` with type, variable name, and description
-- Include `@return` for functions that return values
-- Document all WordPress hooks with their parameters
-- Use inline comments to explain non-obvious logic
-- Keep formatting consistent with approximately 80-character line wrapping
+## Formatting
+- Lists: `-` unordered, `1.` ordered; blank lines before/after
+- Code examples: indent 4 spaces
+- Links: `@link URL`
+- Element-specific: functions (summary, description, tags), arrays (document keys with `@type`), classes (summary, description, `@since`), properties (`@var type $property desc`)
+- Tag policies: use plugin/theme name for `@package` (not WordPress); avoid `@author` unless required; `@license`/`@copyright` only for bundled third-party code
